@@ -18,23 +18,25 @@ export default function AboutPage() {
       { threshold: 0.1 }
     );
 
-    sectionRefs.current.forEach((ref) => {
+    // Fix ESLint exhaustive-deps warning
+    const currentRefs = sectionRefs.current;
+    currentRefs.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
 
     return () => {
-      sectionRefs.current.forEach((ref) => {
+      currentRefs.forEach((ref) => {
         if (ref) observer.unobserve(ref);
       });
     };
   }, []);
+
   return (
     <div className="container mx-auto px-4 py-16">
       <Section 
         title="About Ghalyoun Pack" 
         subtitle="Your trusted paving partner since 2010"
-
-        ref={(el) => sectionRefs.current[0] = el}
+        ref={(el) => { sectionRefs.current[0] = el; }} // Fixed TypeScript error
         className="animate-fade-in"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

@@ -97,12 +97,14 @@ export default function Home() {
       { threshold: 0.1 }
     );
 
-    sectionRefs.current.forEach((ref) => {
+    // Fix ESLint exhaustive-deps warning
+    const currentRefs = sectionRefs.current;
+    currentRefs.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
 
     return () => {
-      sectionRefs.current.forEach((ref) => {
+      currentRefs.forEach((ref) => {
         if (ref) observer.unobserve(ref);
       });
     };
@@ -116,7 +118,7 @@ export default function Home() {
       <Section
         title="Our Premium Services"
         subtitle="Comprehensive paving solutions for residential and commercial projects"
-        ref={(el) => sectionRefs.current[0] = el}
+        ref={(el) => { sectionRefs.current[0] = el; }} // Fixed TypeScript error
         className="animate-fade-in"
         id="services"
       >
@@ -152,7 +154,7 @@ export default function Home() {
       <Section
         title="Why Choose Ghalyoun Pack?"
         subtitle="Your trusted paving partner in Cairo"
-        ref={(el) => sectionRefs.current[1] = el}
+        ref={(el) => { sectionRefs.current[1] = el; }} // Fixed TypeScript error
         className="animate-fade-in"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
@@ -202,7 +204,7 @@ export default function Home() {
       <Section
         title="What Our Clients Say"
         subtitle="Trusted by professionals and homeowners across Cairo"
-        ref={(el) => sectionRefs.current[2] = el}
+        ref={(el) => { sectionRefs.current[2] = el; }} // Fixed TypeScript error
         className="animate-fade-in bg-gray-50 dark:bg-gray-900"
       >
         <div className="testimonial-grid mt-10">
