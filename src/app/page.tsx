@@ -1,65 +1,235 @@
-import Image from "next/image";
+'use client';
+
+import Hero from '@/components/Hero';
+import Section from '@/components/Section';
+import ServiceCard from '@/components/ServiceCard';
+import TestimonialCard from '@/components/TestimonialCard';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+import { FaCheckCircle, FaAward, FaTruck, FaUsers } from 'react-icons/fa';
+
+const services = [
+  {
+    id: 1,
+    title: 'Paving Installation',
+    description: 'Professional installation of concrete pavers, interlocking stones, and natural stone for driveways, walkways, and patios.',
+    icon: '🔧',
+  },
+  {
+    id: 2,
+    title: 'Residential Projects',
+    description: 'Custom paving solutions for homes including driveways, garden paths, pool decks, and outdoor living spaces.',
+    icon: '🏠',
+  },
+  {
+    id: 3,
+    title: 'Commercial Paving',
+    description: 'Large-scale paving projects for businesses, shopping centers, parking lots, and municipal facilities.',
+    icon: '🏢',
+  },
+  {
+    id: 4,
+    title: 'Maintenance & Repair',
+    description: 'Restoration and repair services for existing paved surfaces to extend their lifespan and appearance.',
+    icon: '🛠️',
+  },
+  {
+    id: 5,
+    title: 'Drainage Solutions',
+    description: 'Expert installation of permeable pavers and drainage systems to manage water effectively.',
+    icon: '💧',
+  },
+  {
+    id: 6,
+    title: 'Consultation Services',
+    description: 'Professional advice on material selection, design planning, and project execution for optimal results.',
+    icon: '📋',
+  },
+];
+
+const testimonials = [
+  {
+    id: 1,
+    name: 'Ahmed Hassan',
+    role: 'Construction Manager',
+    content: 'Ghalyoun Pack delivered exactly what we needed for our commercial project. Their quality and service are unmatched in Cairo.',
+    avatar: '/images/testimonials/avatar1.jpeg',
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: 'Mariam Salah',
+    role: 'Homeowner',
+    content: 'The paving stones transformed our driveway beautifully. Fast delivery and excellent customer service.',
+    avatar: '/images/testimonials/avatar2.jpeg',
+    rating: 5,
+  },
+  {
+    id: 3,
+    name: 'Karim Adel',
+    role: 'Project Developer',
+    content: 'We\'ve used Ghalyoun Pack for multiple projects. Their materials are consistently top quality and their team is professional.',
+    avatar: '/images/testimonials/avatar3.jpeg',
+    rating: 5,
+  },
+];
+
+const stats = [
+  { number: '13+', label: 'Years Experience' },
+  { number: '500+', label: 'Projects Completed' },
+  { number: '98%', label: 'Client Satisfaction' },
+  { number: '24/7', label: 'Support Available' },
+];
 
 export default function Home() {
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    sectionRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      sectionRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="w-full">
+      <Hero />
+
+      {/* Services Overview */}
+      <Section
+        title="Our Premium Services"
+        subtitle="Comprehensive paving solutions for residential and commercial projects"
+        ref={(el) => sectionRefs.current[0] = el}
+        className="animate-fade-in"
+        id="services"
+      >
+        <div className="service-grid mt-10">
+          {services.map((service) => (
+            <ServiceCard key={service.id} {...service} />
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </Section>
+
+      {/* Stats Section */}
+      <Section
+        className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-gray-800 dark:to-gray-900 py-16"
+      >
+        <div className="stats-grid">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={index}
+              className="stat-item"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <div className="stat-number">{stat.number}</div>
+              <div className="stat-label">{stat.label}</div>
+            </motion.div>
+          ))}
         </div>
-      </main>
+      </Section>
+
+      {/* Why Choose Us */}
+      <Section
+        title="Why Choose Ghalyoun Pack?"
+        subtitle="Your trusted paving partner in Cairo"
+        ref={(el) => sectionRefs.current[1] = el}
+        className="animate-fade-in"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
+            <div className="industrial-icon mx-auto">
+              <FaAward size={28} />
+            </div>
+            <h3 className="text-xl font-bold mb-2">Premium Quality</h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              We source only the highest quality materials that meet international standards.
+            </p>
+          </div>
+
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
+            <div className="industrial-icon mx-auto">
+              <FaCheckCircle size={28} />
+            </div>
+            <h3 className="text-xl font-bold mb-2">Expert Craftsmanship</h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Our skilled artisans ensure precision in every project, big or small.
+            </p>
+          </div>
+
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
+            <div className="industrial-icon mx-auto">
+              <FaTruck size={28} />
+            </div>
+            <h3 className="text-xl font-bold mb-2">Timely Delivery</h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Prompt delivery across Greater Cairo with our efficient logistics network.
+            </p>
+          </div>
+
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
+            <div className="industrial-icon mx-auto">
+              <FaUsers size={28} />
+            </div>
+            <h3 className="text-xl font-bold mb-2">Customer Focus</h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Personalized service tailored to your specific needs and preferences.
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      {/* Testimonials */}
+      <Section
+        title="What Our Clients Say"
+        subtitle="Trusted by professionals and homeowners across Cairo"
+        ref={(el) => sectionRefs.current[2] = el}
+        className="animate-fade-in bg-gray-50 dark:bg-gray-900"
+      >
+        <div className="testimonial-grid mt-10">
+          {testimonials.map((testimonial) => (
+            <TestimonialCard key={testimonial.id} {...testimonial} />
+          ))}
+        </div>
+      </Section>
+
+      {/* CTA Banner */}
+      <Section className="bg-gradient-to-r from-orange-500 to-amber-500 text-white py-16">
+        <div className="text-center max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Transform Your Outdoor Spaces</h2>
+          <p className="text-xl mb-8">Get a free consultation for your paving project today</p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-orange-500 hover:bg-gray-100 font-bold py-3 px-8 rounded-full text-lg transition duration-300 shadow-lg"
+            >
+              <Link href="/contact" className="flex items-center gap-2">
+                Contact Us
+              </Link>
+            </motion.button>
+          </div>
+        </div>
+      </Section>
     </div>
   );
 }

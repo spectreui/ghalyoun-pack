@@ -1,26 +1,247 @@
 @import "tailwindcss";
 
+/* =========================
+   CSS Variables (Design System)
+========================= */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 0 0% 100%;
+  --foreground: 222.2 47.4% 11.2%;
+
+  --primary: 25 95% 53%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 25 95% 53%;
+
+  --radius: 0.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --background: 224 71% 4%;
+  --foreground: 213 31% 91%;
+
+  --primary: 25 95% 53%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 223 47% 11%;
+  --secondary-foreground: 210 40% 98%;
+
+  --accent: 223 47% 11%;
+  --accent-foreground: 210 40% 98%;
+
+  --muted: 223 47% 11%;
+  --muted-foreground: 215.4 16.3% 56.9%;
+
+  --border: 216 34% 17%;
+  --input: 216 34% 17%;
+  --ring: 25 95% 53%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* =========================
+   Base Styles
+========================= */
+* {
+  border-color: hsl(var(--border));
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: hsl(var(--background));
+  color: #374151;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #ffffff;
+    color: #374151;
+  }
+  
+  .hero-pattern::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    z-index: -1;
+  }
+}
+
+/* Dark mode enhancements */
+.dark  body {
+    background-color: #111827;
+    color: #d1d5db;
+  }
+
+/* =========================
+   Custom Utilities / Components
+========================= */
+
+.hero-pattern {
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 165, 0, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 20%),
+    linear-gradient(to bottom, #f8f9fa, #ffffff);
+}
+
+.dark .hero-pattern {
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 165, 0, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 20%),
+    linear-gradient(to bottom, #0f172a, #020617);
+}
+
+/* Grids */
+.service-grid,
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* Animation */
+.animate-fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Icons */
+.industrial-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #ffedd5;
+  color: #ea580c;
+  margin-bottom: 1.5rem;
+}
+
+.dark .industrial-icon {
+  background-color: #431407;
+  color: #fdba74;
+}
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark .stat-item {
+  background: #1e293b;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ea580c;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #64748b;
+}
+
+.dark .stat-label {
+  color: #94a3b8;
+}
+
+.hero-pattern::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  z-index: -1;
+}
+
+/* Dark mode enhancements */
+.dark  body {
+    background-color: #111827;
+    color: #d1d5db;
+  }
+
+/* Grid layouts */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #f97316;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 1.125rem;
+  color: #4b5563;
+}
+
+.dark .stat-label {
+  color: #9ca3af;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.industrial-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffedd5;
+  color: #f97316;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.dark .industrial-icon {
+  background-color: #374151;
+  color: #f97316;
 }
